@@ -1,0 +1,43 @@
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const phoneInput = document.getElementById('phone');
+const addressInput = document.getElementById('address');
+const infoForm = document.getElementById('info-form');
+const resumeContent = document.getElementById('resume-content');
+const generateButton = document.getElementById('generate-button');
+
+infoForm.addEventListener('input', updateResumePreview);
+
+generateButton.addEventListener('click', generateResume);
+
+function updateResumePreview() {
+    const name = nameInput.value;
+    const email = emailInput.value;
+    const phone = phoneInput.value;
+    const address = addressInput.value;
+
+    const resumeHTML = `
+        <h3>${name}</h3>
+        <p>Email: ${email}</p>
+        <p>Phone: ${phone}</p>
+        <p>Address: ${address}</p>
+    `;
+
+    resumeContent.innerHTML = resumeHTML;
+}
+
+function generateResume() {
+    const resumeHTML = resumeContent.innerHTML;
+    const pdfWindow = window.open('', '', 'width=600,height=600');
+    pdfWindow.document.open();
+    pdfWindow.document.write(`
+        <html>
+        <head>
+            <title>Generated Resume</title>
+        </head>
+        <body>${resumeHTML}</body>
+        </html>
+    `);
+    pdfWindow.document.close();
+    pdfWindow.print();
+}
